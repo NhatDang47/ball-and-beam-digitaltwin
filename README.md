@@ -41,4 +41,4 @@ uv sync
 # Or: uv add numpy pygame
 
 # Run the project
-uv run main.py  # or directly execute BallAndBeam_DigitalTwin.exe
+uv run main.py
