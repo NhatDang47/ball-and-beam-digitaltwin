@@ -27,18 +27,3 @@ Distance Sensor: Injects white noise (Gaussian Noise) and applies quantization b
 Motor Encoder: Discretizes the measured angle based on PPR (Pulses Per Revolution), recreating real-world step-like signal behavior.
 
 Actuator: Limits the maximum motor RPM and quantizes the output signal according to PWM resolution (e.g., 8-bit / 255 levels).
-
-🚀 Installation & Execution
-
-The project uses uv as the dependency manager to ensure a consistent development environment.
-
-1. Run from Source Code
-
-Requirements: Python 3.12+ and uv installed.
-
-# Install dependencies (NumPy, Pygame)
-uv sync
-# Or: uv add numpy pygame
-
-# Run the project
-uv run main.py
