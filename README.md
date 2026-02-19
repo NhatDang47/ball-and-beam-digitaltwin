@@ -1,29 +1,77 @@
-🎛️ Ball and Beam: Hardware Digital Twin
+# <h1 align="center">🎛️ Ball and Beam: Hardware-Accurate Digital Twin</h1>
 
-Simulation for the Ball and Beam balancing system. This project is built to validate control algorithms and hardware design for a mechatronic system before deploying real firmware to a microcontroller.
+<p align="center">
+  <img src="https://img.shields.io/badge/Control-Cascaded%20PID-orange?style=flat-square">
+  <img src="https://img.shields.io/badge/Fidelity-Hardware%20Aware-blue?style=flat-square">
+  <img src="https://img.shields.io/badge/Standard-V--Model-green?style=flat-square">
+</p>
 
-📐 System Architecture
+> **Ball and Beam Digital Twin** is a hardware-informed simulation platform built to close the gap between control theory and embedded deployment.  
+> It enables firmware validation in a virtual environment that faithfully reproduces real-world mechanical and electronic constraints before moving to physical hardware.
 
-The system is designed following the Real-Time Safety principle in embedded systems:
+---
 
-Nonlinear Dynamics: Accurately simulates the motion equation of a solid steel ball rolling on a beam, incorporating rolling inertia compensation (Rolling Inertia) with coefficient B = 5/7, and friction forces.
+## 📐 Nonlinear Physical Modeling
 
-Control Algorithm: Uses a Cascaded PID structure (Dual-loop PID):
+The system simulates a solid steel ball rolling on a beam controlled by angular actuation. The model incorporates nonlinear dynamics and real mechanical effects to ensure realistic behavior:
 
-Outer Loop: Position control.
+- **Rolling Dynamics Compensation**  
+  Rotational inertia of a solid sphere is included using the rolling factor  
+  B = 5/7  
+  ensuring accurate acceleration response.
 
-Inner Loop: Angle control.
+- **Gravity & Friction Effects**  
+  Gravitational acceleration, rolling resistance, and friction forces are modeled to replicate real motion characteristics.
 
-Includes output clamping and integrator anti-windup.
+- **Signal Conditioning**  
+  An **EMA (Exponential Moving Average)** low-pass filter smooths derivative terms and reduces simulated measurement noise.
 
-Digital Filtering: Applies an EMA low-pass filter to reduce measurement noise and smooth the derivative (D) term.
+---
 
-🛠️ Hardware Constraint Simulation (HAL)
+## 🛠️ Hardware Abstraction Layer (HAL) Simulation
 
-The key difference of this Digital Twin is the integration of real hardware physical limitations into the digital environment:
+Rather than assuming ideal components, this Digital Twin embeds realistic hardware constraints to stress-test control firmware prior to deployment.
 
-Distance Sensor: Injects white noise (Gaussian Noise) and applies quantization based on millimeter resolution.
+| Subsystem | Simulated Constraint |
+|-----------|---------------------|
+| **Distance Sensor** | Gaussian noise injection and millimeter-level quantization to emulate real sensor resolution |
+| **Angle Encoder** | Discrete angle measurement based on configured **PPR (Pulses Per Revolution)** |
+| **Actuator & Motor Drive** | PWM resolution limits (e.g., 8-bit / 255 levels) and motor RPM saturation |
 
-Motor Encoder: Discretizes the measured angle based on PPR (Pulses Per Revolution), recreating real-world step-like signal behavior.
+This approach ensures firmware robustness under non-ideal operating conditions.
 
-Actuator: Limits the maximum motor RPM and quantizes the output signal according to PWM resolution (e.g., 8-bit / 255 levels).
+---
+
+## 🎮 Control Architecture: Dual-Loop Cascaded PID
+
+To stabilize the under-actuated ball-and-beam system, a **Cascaded PID** structure is implemented:
+
+1. **Outer Loop – Position Control**  
+   Computes the required beam angle from the ball position error.
+
+2. **Inner Loop – Angle Control**  
+   Drives the motor actuator to reach the target beam angle.
+
+3. **Protection & Stability Features**
+   - Integrator Anti-Windup  
+   - Output Clamping  
+   - Saturation-aware control logic  
+
+These mechanisms prevent instability during large setpoint transitions or actuator saturation.
+
+---
+
+## 🚀 Purpose
+
+This project supports:
+
+- Control algorithm validation  
+- Firmware-in-the-loop testing  
+- V-model development workflows  
+- Risk reduction before hardware commissioning  
+
+---
+
+## 👤 Author
+
+**NhatDang47**
